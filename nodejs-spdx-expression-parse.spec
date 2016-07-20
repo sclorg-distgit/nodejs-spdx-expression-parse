@@ -9,12 +9,15 @@
 %global enable_tests 0
 
 Name:		%{?scl_prefix}nodejs-spdx-expression-parse
-Version:	1.0.1
+Version:	1.0.2
 Release:	2%{?dist}
-Summary:	parse SPDX license expressions
+Summary:	Parse SPDX license expressions
 Url:		https://github.com/kemitchell/spdx-expression-parse.js#readme
 Source0:	https://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
-License:	(MIT AND CC-BY-3.0)
+# CC license that is missing from sources
+# http://creativecommons.org/licenses/by/3.0/
+Source1:    LICENSE-CC-BY-3.0
+License:	MIT AND CC-BY-3.0
 
 BuildArch:	noarch
 
@@ -44,6 +47,7 @@ parse SPDX license expressions
 
 %prep
 %setup -q -n package
+cp -p %{SOURCE1} .
 
 rm -rf node_modules
 
@@ -67,9 +71,15 @@ cp -pr package.json *.js \
 %files
 %{nodejs_sitelib}/spdx-expression-parse
 
-%doc README.md
+%doc README.md LICENSE LICENSE-CC-BY-3.0
 
 %changelog
+* Fri Jun 10 2016 Zuzana Svetlikova <zsvetlik@redhat.com> - 1.0.2-2
+- Resolves: #1334856 , update, add missing license
+
+* Thu Jun 09 2016 Zuzana Svetlikova <zsvetlik@redhat.com> - 1.0.1-3
+- Resolves: rhbz#1334856 , fixes wrong license
+
 * Sun Feb 14 2016 Zuzana Svetlikova <zsvetlik@redhat.com> - 1.0.1-2
 - rebuilt
 
